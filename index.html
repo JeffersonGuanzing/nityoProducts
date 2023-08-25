@@ -53,41 +53,47 @@
     </div>
         
 
-  <!-- Update Modal -->
-  <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
-    <!-- ... existing modal code ... -->
-    <div class="modal-body">
-        <!-- Form for updating product details -->
-        <form id="update-product-form" class="form" enctype="multipart/form-data">
-            <!-- Fields for updating product information -->
-            <div class="mb-3">
-                <label for="update-product-name" class="form-label">Product Name</label>
-                <input type="text" class="form-control" id="update-product-name" name="update_product_name" required>
+   <!-- Update Form Modal -->
+   <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel">Update Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="mb-3">
-                <label for="update-product-unit" class="form-label">Product Unit</label>
-                <input type="text" class="form-control" id="update-product-unit" name="update_product_unit" required>
+            <div class="modal-body">
+                <form id="update-form" class="form" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="product-name" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="update-product-name" name="product_name" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="product-unit" class="form-label">Product Unit</label>
+                        <input type="text" class="form-control" id="update-product-unit" name="product_unit" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="product-price" class="form-label">Product Price</label>
+                        <input type="number" step="0.01" class="form-control" id="update-product-price" name="product_price" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="expiry-date" class="form-label">Expiry Date</label>
+                        <input type="date" class="form-control" id="update-expiry-date" name="expiry_date" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="inventory-count" class="form-label">Available Inventory</label>
+                        <input type="number" class="form-control" id="update-inventory-count" name="inventory_count" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="product-image" class="form-label">Product Image</label>
+                        <input type="file" class="form-control" id="update-product-image" name="product_image" accept="image/*" >
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="update-modal-submit">Update Product</button>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="update-product-price" class="form-label">Product Price</label>
-                <input type="number" step="0.01" class="form-control" id="update-product-price" name="update_product_price" required>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
-            <div class="mb-3">
-                <label for="update-expiry-date" class="form-label">Expiry Date</label>
-                <input type="date" class="form-control" id="update-expiry-date" name="update_expiry_date" required>
-            </div>
-            <div class="mb-3">
-                <label for="update-inventory-count" class="form-label">Available Inventory</label>
-                <input type="number" class="form-control" id="update-inventory-count" name="update_inventory_count" required>
-            </div>
-            <div class="mb-3">
-                <label for="update-product-image" class="form-label">Product Image</label>
-                <input type="file" class="form-control" id="update-product-image" name="update_product_image" accept="image/*" required>
-            </div>
-            <!-- Add a hidden input field to store the updated product ID -->
-            <input type="hidden" id="update-product-id" name="update_product_id">
-            <button type="submit" class="btn btn-primary" id="update-modal-submit">Update Product</button>
-        </form>
+        </div>
     </div>
 </div>
 

@@ -1,5 +1,4 @@
 <?php 
-//Establish Connection 
 $servername = "localhost:3307";
 $username = "root";
 $password = "@JohnWick05";

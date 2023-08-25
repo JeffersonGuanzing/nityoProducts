@@ -12,15 +12,14 @@ $(document).ready(function() {
             url: "operations/read_records.php",
             type: "GET",
             processData: false,
-            dataType: "json", // Expecting JSON data
+            dataType: "json", 
             
             success: function(data) {
                 console.log(data);
                 var productContainer = $("#product-row");
     
-                productContainer.empty(); // Clear the container
+                productContainer.empty(); 
     
-                // Loop through the products and populate the HTML
                 $.each(data, function(index, product) {
 
                     const expiryDate = new Date(product.expiry_date);
@@ -44,7 +43,7 @@ $(document).ready(function() {
                         </div>
                     `;
     
-                    productContainer.append(productCard); // Use append() to add each product card
+                    productContainer.append(productCard); 
                 });
             }
         });
@@ -91,37 +90,62 @@ $(document).ready(function() {
 });
 
 
-// Event delegation for dynamically created elements
 $(document).on("click", ".update-btn", function() {
-    var row_id = $(this).data("record-id");
-    $("#updateModal").modal("show");
-    console.log("After modal show");
-});
+    var product_id = $(this).data("record-id");
 
-$("#update-modal-submit").click(function() {
-    var product_id = $(this).data("product-id");
-
-    // Collect updated data from modal fields
-    var updatedData = {
-        id: product_id,
-        name: $("#update-product-name").val(),
-        unit: $("#update-unit").val(),
-        price: $("#update-price").val(),
-        // Collect other fields similarly
-    };
-
-    // Send the updated data to the server for processing
     $.ajax({
-        url: "operations/update_product.php", // Replace with the appropriate URL to update the product
-        type: "POST",
-        data: updatedData,
+        url: "operations/get_product.php",
+        type: "GET",
+        data: { id: product_id },
         dataType: "json",
-        success: function(response) {
-            // Handle success or update UI as needed
-            // Close the modal if the update was successful
-            $("#updateModal").modal("hide");
-            // Refresh the records display
-            loadRecords();
+        success: function(product) {
+            $("#update-product-name").val(product.name);
+            $("#update-product-unit").val(product.unit);
+            $("#update-product-price").val(product.price);
+            $("#update-expiry-date").val(product.expiry_date);
+            $("#update-inventory-count").val(product.inventory);
+
+            $("#update-modal-submit").data("product-id", product_id);
+
+            $("#updateModal").modal("show");
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
         }
     });
 });
+
+$(document).ready(function() {
+    $("#update-modal-submit").click(function(e) {
+        e.preventDefault(); 
+
+        var product_id = $(this).data("product-id");
+
+        var updatedData = {
+            id: product_id,
+            name: $("#update-product-name").val(),
+            unit: $("#update-product-unit").val(),
+            price: $("#update-product-price").val(),
+            expiry_date: $("#update-expiry-date").val(),
+            inventory: $("#update-inventory-count").val()
+        };
+
+        console.log(updatedData)
+        
+        $.ajax({
+            url: "operations/update_records.php",
+            type: "POST",
+            data: updatedData,
+            dataType: "json",
+            success: function(response) {
+                console.log(response);
+                $("#updateModal").modal("hide");
+                loadRecords();
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+});
+
