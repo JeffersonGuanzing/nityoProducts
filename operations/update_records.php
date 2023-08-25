@@ -1,6 +1,6 @@
 <?php
 
-include 'db.php'
+include 'db.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
@@ -20,12 +20,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->bind_param("ssdssi", $name, $unit, $price, $expiry_date, $inventory, $product_id);
 
     if ($stmt->execute()) {
-        echo 'success'
+        $response = array("success" => true, "message" => "Record updated successfully");
+        echo json_encode($response);
     } else {
-       echo 'fail'
+        $response = array("success" => false, "message" => "Error updating record: " . $stmt->error);
+        echo json_encode($response);
     }
 
     $stmt->close();
     $conn->close();
+} else {
+    $response = array("success" => false, "message" => "Invalid request method");
+    echo json_encode($response);
 }
 ?>

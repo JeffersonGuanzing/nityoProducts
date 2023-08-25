@@ -87,65 +87,63 @@ $(document).ready(function() {
             }
         });
     });
-});
 
-
-$(document).on("click", ".update-btn", function() {
-    var product_id = $(this).data("record-id");
-
-    $.ajax({
-        url: "operations/get_product.php",
-        type: "GET",
-        data: { id: product_id },
-        dataType: "json",
-        success: function(product) {
-            $("#update-product-name").val(product.name);
-            $("#update-product-unit").val(product.unit);
-            $("#update-product-price").val(product.price);
-            $("#update-expiry-date").val(product.expiry_date);
-            $("#update-inventory-count").val(product.inventory);
-
-            $("#update-modal-submit").data("product-id", product_id);
-
-            $("#updateModal").modal("show");
-        },
-        error: function(xhr, status, error) {
-            console.error(error);
-        }
-    });
-});
-
-$(document).ready(function() {
-    $("#update-modal-submit").click(function(e) {
-        e.preventDefault(); 
-
-        var product_id = $(this).data("product-id");
-
-        var updatedData = {
-            id: product_id,
-            name: $("#update-product-name").val(),
-            unit: $("#update-product-unit").val(),
-            price: $("#update-product-price").val(),
-            expiry_date: $("#update-expiry-date").val(),
-            inventory: $("#update-inventory-count").val()
-        };
-
-        console.log(updatedData)
-        
-        $.ajax({
-            url: "operations/update_records.php",
-            type: "POST",
-            data: updatedData,
-            dataType: "json",
-            success: function(response) {
-                console.log(response);
-                $("#updateModal").modal("hide");
-                loadRecords();
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-            }
+        // Click event for the update button
+        $(document).on("click", ".update-btn", function() {
+            var product_id = $(this).data("record-id");
+    
+            $.ajax({
+                url: "operations/get_product.php",
+                type: "GET",
+                data: { id: product_id },
+                dataType: "json",
+                success: function(product) {
+                    $("#update-product-name").val(product.name);
+                    $("#update-product-unit").val(product.unit);
+                    $("#update-product-price").val(product.price);
+                    $("#update-expiry-date").val(product.expiry_date);
+                    $("#update-inventory-count").val(product.inventory);
+    
+                    $("#update-modal-submit").data("product-id", product_id);
+    
+                    $("#updateModal").modal("show");
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
         });
-    });
+    
+        // Click event for the modal's update button
+        $("#update-modal-submit").click(function(e) {
+            e.preventDefault();
+    
+            var product_id = $(this).data("product-id");
+    
+            var updatedData = {
+                id: product_id,
+                name: $("#update-product-name").val(),
+                unit: $("#update-product-unit").val(),
+                price: parseFloat($("#update-product-price").val()),
+                expiry_date: $("#update-expiry-date").val(),
+                inventory: parseInt($("#update-inventory-count").val())
+            };
+            
+    
+            console.log(updatedData);
+            
+            $.ajax({
+                url: "operations/update_records.php",
+                type: "POST",
+                data: updatedData,
+                success: function(response) {
+                    console.log(response);
+                    $("#updateModal").modal("hide");
+                    loadRecords(); // Assuming you have a function to reload records
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
 });
-
